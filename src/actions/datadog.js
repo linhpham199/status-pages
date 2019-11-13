@@ -23,9 +23,8 @@ export function fetchDatadogStatus() {
         dispatch(fetchDatadog_FAIL())
         throw err
       } else {
-        if (feed.items.length === 0) {
           dispatch(fetchDatadog_OK())
-        } else {
+
           const incidents = feed.items.slice(0, 5)
 
           incidents.forEach(incident => {
@@ -36,7 +35,7 @@ export function fetchDatadogStatus() {
           })
           console.log(incidents)
         }
-      }
+      
     })
   }
 }

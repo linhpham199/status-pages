@@ -10,7 +10,7 @@ export default function datadog (state = initialState, action) {
 
     case ActionTypes.DATADOG_OK:
       return {
-        ...state
+        ...initialState
       }
     
     case ActionTypes.DATADOG_FAIL:
