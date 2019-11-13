@@ -51,8 +51,6 @@ export function fetchAzureStatus() {
           const services = Object.values(AzureServices)
           const regions = Object.values(AzureRegions)
 
-          console.log(services)
-
           let errors = feed.items.filter(item => {
             return services.find(service => item.title.includes(service))
           })
@@ -88,10 +86,6 @@ export function fetchAzureStatus() {
               })
             })
           })
-
-          console.log(errors)
-          console.log(services)
-          console.log(regions)
         }
       }
     })
