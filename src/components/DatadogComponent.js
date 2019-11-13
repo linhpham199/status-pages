@@ -22,8 +22,9 @@ class DatadogComponent extends Component {
     return (
       <div>
         <h1>DATADOG INCIDENTS</h1>
-        {
-          this.props.incidents.map((inc, i) => (
+        { this.props.incidents.length === 0
+          ? <p>Loading...</p>
+          : this.props.incidents.map((inc, i) => (
             <div key={i}>
               <h2>{i+1}. {inc.title}</h2>
               <div dangerouslySetInnerHTML={{ __html: inc.content}}/>
