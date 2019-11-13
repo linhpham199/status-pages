@@ -1,9 +1,8 @@
 import RSSParser from 'rss-parser'
 import { ActionTypes, URL, AzureServices, AzureRegions } from '../constants'
 
-export const fetchAzure_OK = (status) => ({
-  type: ActionTypes.AZURE_OK,
-  status
+export const fetchAzure_OK = () => ({
+  type: ActionTypes.AZURE_OK
 })
 
 export const fetchAzure_FAIL = () => ({
@@ -26,12 +25,28 @@ export function fetchAzureStatus() {
         throw err
 
       } else {
-        
+
         if (feed.items.length === 0) {
           console.log('OK')
-          dispatch(fetchAzure_OK(feed))
+          dispatch(fetchAzure_OK())
 
         } else {
+          // const mockFeed = {
+          //   items: [
+          //     {
+          //       title: 'Azure Functions broken down in East US 2'
+          //     },
+          //     {
+          //       title: 'Virtual Machines broken down in East US - fasdf'
+          //     },
+          //     {
+          //       title: 'Nothing wrong with Azure Functions - fasfasd'
+          //     },
+          //     {
+          //       title: 'Azure Functions broken down in nowhere - fadsfads'
+          //     }
+          //   ]
+          // }
 
           const services = Object.values(AzureServices)
           const regions = Object.values(AzureRegions)
@@ -53,10 +68,10 @@ export function fetchAzureStatus() {
             console.log(errorServices)
 
             const errorRegions = regions.filter(region => {
-              
-              const regEx = new RegExp('\\b' + region)
+              const regEx = new RegExp('\\b' + region + '( \\D)')
+              const regEx2 = new RegExp('\\b' + region + '$')
 
-              return error.title.match(regEx)
+              return error.title.match(regEx) || error.title.match(regEx2)
             })
             console.log(errorRegions)
 
@@ -77,17 +92,6 @@ export function fetchAzureStatus() {
           console.log(errors)
           console.log(services)
           console.log(regions)
-
-
-          const brokenServices = services.map((item, i) => {
-
-            return {
-              
-
-              
-            }
-          })
-          dispatch(fetchAzure_INCIDENTS(brokenServices))
         }
       }
     })

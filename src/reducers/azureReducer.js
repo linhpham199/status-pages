@@ -1,9 +1,8 @@
 import { ActionTypes, AzureRegions, AzureServices } from '../constants'
 
 export const initialState = {
-  status: null,
-  services: [AzureServices.VIRTUAL_MACHINES, AzureServices.CLOUD_SERVICES, AzureServices.AZURE_FUNCTIONS],
-  regions: [AzureRegions.EAST_US, AzureRegions.EAST_US_2, AzureRegions.NORTH_EU],
+  services: Object.values(AzureServices),
+  regions: Object.values(AzureRegions),
   errors: [
     // {
     //   service: AzureServices.VIRTUAL_MACHINES,
@@ -25,8 +24,7 @@ export default function azure (state = initialState, action) {
 
     case ActionTypes.AZURE_OK:
       return {
-        ...initialState,
-        status: action.status
+        ...state,
       }
 
     case ActionTypes.AZURE_FAIL:

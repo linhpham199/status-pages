@@ -12,6 +12,16 @@ class AzureComponent extends Component {
 
   componentDidMount() {
     this.props.fetchAzureStatus()
+
+    this.interval = setInterval(() => this.reload(), 600000)
+  }
+
+  reload() {
+    window.location.reload(true)
+  }
+
+  componentWillUnmount() {
+    clearInterval(this.interval)
   }
 
   componentDidUpdate(prevProps) {
@@ -21,7 +31,6 @@ class AzureComponent extends Component {
   }
 
   checkStatus(service, region) {
-    // Check from error
     const { errors } = this.state
     return errors.find((error) =>
       error.service === service && error.region === region)
@@ -34,19 +43,15 @@ class AzureComponent extends Component {
 
     return (
       <div>
-        {console.log('SERVICES', this.props.services)}
-        {console.log('REGIONS', this.props.regions)}
-        {console.log('ERRORS', this.state.errors)}
-        {services.map((service) => {
+        <h1>AZURE STATUS</h1>
+        {services.map((service, i) => {
           return (
-            <div>
-              <h1>{service}</h1>
-              {regions.map((region) => <p>{region}: {this.checkStatus(service, region)}</p>)}
+            <div key={i}>
+              <h2>{service}</h2>
+              {regions.map((region, i) => <p key={i}>{region}: {this.checkStatus(service, region)}</p>)}
             </div>
           )
-
         })}
-        {console.log(this.props.status)}
       </div>
     );
   }

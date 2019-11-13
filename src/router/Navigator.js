@@ -13,8 +13,8 @@ class Navigator extends Component {
     return (
       <Router>
         <div>
-          <Link to="/azure">Azure status</Link>
-          <Link to="/datadog">Datadog incidents</Link>
+          <p><Link to="/azure">Azure status</Link></p>
+          <p><Link to="/datadog">Datadog incidents</Link></p>
 
           <Switch>
             <Route path="/azure">
