@@ -1,6 +1,6 @@
 import { combineReducers } from 'redux';
-import azure from './azure'
-import datadog from './datadog'
+import azure from './azureReducer'
+import datadog from './datadogReducer'
 
 const rootReducer = () => (
   combineReducers({
