@@ -32,7 +32,7 @@ Here stores redux reducers. Different files are created for different services.
 
 ##### `azureReducer.js`
 
-I came up with some options for data structure of Azure data in store and I should decide which one is the best option. After some consideration, I decided to have the services and regions as 2 different arrays, and another array is errors array which is used to store error objects (if there is any). With this solutions, it is easy to add new services or new regions and also, easy to render for the view.
+I came up with some options for data structure of Azure data in store and I should decide which one is the best option. After some consideration, I decided to have the services and regions as 2 different arrays, and another array is errors array which is used to store error objects (if there is any). With this solution, it is easy to add new services or new regions and also, easy to render for the view.
 
 ```javascript
 import { ActionTypes, AzureRegions, AzureServices } from '../constants'
@@ -99,10 +99,6 @@ errors.forEach(error => {
   // Match service with region and dispatch to reducer
   errorServices.forEach(errSer => {
     errorRegions.forEach(errReg => {
-      console.log({
-        name: errSer,
-        region: errReg
-      })
       return dispatch(fetchAzure_INCIDENTS({
         service: errSer,
         region: errReg
