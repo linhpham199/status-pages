@@ -32,6 +32,8 @@ Here stores redux reducers. Different files are created for different services.
 
 ##### `azureReducer.js`
 
+I came up with some options for data structure of Azure data in store and I should decide which one is the best option. After some consideration, I decided to have the services and regions as 2 different arrays, and another array is errors array which is used to store error objects (if there is any). With this solutions, it is easy to add new services or new regions and also, easy to render for the view.
+
 ```javascript
 import { ActionTypes, AzureRegions, AzureServices } from '../constants'
 
@@ -166,9 +168,9 @@ In order to add new status page, please follow these steps:
 
 1. Go to `reducers` folder, create new reducer for your service, and include that reducer in `reducers/index.js` file.
 2. Go to `actions` folder, create new action file for your service. 
-3. Go to `components` folder, create new file in order to display your service in the application.
-4. Go to `router/Navigation.js` and include your view component in the router.
-Any constants that will be shared among many files, please create an approriate file for them under `constants` folder.
+3. Go to `constants` folder, add new action types for your service in `ActionTypes.js` file. Any other constants that will be shared among many files, please create an approriate file for them under this folder.
+4. Go to `components` folder, create new file in order to display your service in the application.
+5. Go to `router/Navigation.js` and include your view component in the router.
 
 ## 3. Time
 The application was built in approximately 9 hours.
