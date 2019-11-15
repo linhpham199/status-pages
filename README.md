@@ -1,5 +1,7 @@
 This is a Reac-Redux application that lists different status pages and shows particular values from those pages. Automatic refresh once every 10 minutes.
 
+Github pages: https://linhpham199.github.io/status-pages/#/
+
 ## Data
 
 The data was retrieved from 2 sources: [Azure status page](https://status.azure.com/en-us/status) and [Datadog status page](https://status.datadoghq.com/).
