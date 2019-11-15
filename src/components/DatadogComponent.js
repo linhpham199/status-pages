@@ -43,7 +43,6 @@ const mapDispatchToProps = dispatch => ({
 });
 
 const mapStateToProps = state => ({
-  status: state.datadog.status,
   incidents: state.datadog.incidents
 })
 

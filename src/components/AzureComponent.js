@@ -63,7 +63,6 @@ const mapDispatchToProps = dispatch => ({
 });
 
 const mapStateToProps = state => ({
-  status: state.azure.status,
   services: state.azure.services,
   regions: state.azure.regions,
   errors: state.azure.errors
