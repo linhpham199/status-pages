@@ -4,7 +4,7 @@ This is a Reac-Redux application that lists different status pages and shows par
 
 The data was retrieved from 2 sources: [Azure status page](https://status.azure.com/en-us/status) and [Datadog status page](https://status.datadoghq.com/).
 
-As the 2 mentioned websites do not provide API, I must find another solutions to get the data. I found out 2 other alternatives to API which are web-scraping and RSS. However, web-scraping is not a sustainable solution in this case. Because if the web page changes its structure, the data cannot be retrieved correctly anymore; on top of that, it will be more complicated in case of updating data every 10 minutes. So RSS was my final decision.
+As the 2 mentioned websites do not provide API, I must find another solutions to get the data. I found out 2 other alternatives to API which are web-scraping and RSS. However, web-scraping is not a sustainable solution in this case. Because if the web page changes its structure, the data cannot be retrieved correctly anymore; on top of that, it will be more complicated in case of updating data every 10 minutes. On the other hand, RSS is easier to retrieve data and get updated data. So RSS was my final decision.
 
 ## 1. Code insights and explanations
 
@@ -24,11 +24,11 @@ Hereby I will go to each folder for better explanation.
 
 ### ├── constants
 
-Here stores constants files which are shared among some other files in the applications. Putting those contants in the same folder makes application scalable, maintainable and reusable without any typing mistakes.
+Here store constants files which are shared among some other files in the applications. Putting those contants in the same folder makes application scalable, maintainable and reusable without any typing mistakes.
 
 ### ├── reducers
 
-Here stores redux reducers. Different files are created for different services.
+Here store redux reducers. Different files are created for different services.
 
 ##### `azureReducer.js`
 
@@ -56,7 +56,7 @@ let parser = new RSSParser() //Used to parse RSS to Javascript objects.
  if (feed.items.length === 0) {
     dispatch(fetchAzure_OK())
  } else {
-  // Codes showed below
+  // Codes shown below
  }
 ```
 As Azure status page RSS feed returns nothing if there is no problem, so I need to check `feed.item.length`. If there are some problems, codes and explanations are shown below.
@@ -66,19 +66,19 @@ As Azure status page RSS feed returns nothing if there is no problem, so I need 
 const services = Object.values(AzureServices)
 const regions = Object.values(AzureRegions)
 
-// `errors` array stores errors services which are retrieving from RSS feed
+// `errors` array stores error services which are retrieved from RSS feed
 // As the application only needs certain services, I iterate through the `feed.items` array to find any item that contains those services in the title
 let errors = feed.items.filter(item => {
   return services.find(service => item.title.includes(service))
 })
 
-// Now the `errors` array only store item problems that concern our services
+// Now the `errors` array only stores item problems that concern our services
 // After that, I iterate through the `errors` array to find in those item problems which one happened in our regions.
 errors = errors.filter(item => {
   return regions.find(region => item.title.includes(region))
 })
 
-// Now we are left with `errors` array which stores problem with our services happened in our regions.
+// Now we are left with `errors` array which stores problems of our services happened in our regions.
 
 // Below I extract the service names and region names from each item's title in `errors` array
 errors.forEach(error => {
@@ -88,7 +88,7 @@ errors.forEach(error => {
     return error.title.includes(service)
   })
   
-  // Here I pick out any regionss mentioned in title of this item and put in `errorRegions` array
+  // Here I pick out any regions mentioned in title of this item and put in `errorRegions` array
   const errorRegions = regions.filter(region => {
     const regEx = new RegExp('\\b' + region + '( \\D)') // RegEx is explained later
     const regEx2 = new RegExp('\\b' + region + '$')
@@ -112,14 +112,14 @@ errors.forEach(error => {
 During the time I built the application, there was never anything wrong with Azure services so the RSS feed never sent back anything. So I was not sure about the structure of the data which will be sent if anything happens. I checked Azure documents but could not find any examples. Luckily, I found some examples on the other websites and also [Azure history page](https://status.azure.com/en-us/status/history/). Even though the format of those example data is different (because of difference in time posted), but it always has the title in common. Therefore, I decided to use the title to find needed services and regions.
 
 ##### Why I created `errorServices` and `errorRegions` array when iterating through each error?
-As I checked some examples, the error title can report problem of 1 service in 1 region, OR 1 service in many regions, OR many services in 1 region, OR many services in many regions (total 4 cases). So I extracted services and regions in each title and push them to 2 different arrays. Later I can iterate the arrays and match each service with each region as object {service: '', regions: ''} and dispatch to the store.
+As I checked some examples, the error title can report problem of 1 service in 1 region, OR 1 service in many regions, OR many services in 1 region, OR many services in many regions (total 4 cases). So I extracted services and regions in each title and push them to 2 different arrays. Later I can iterate the arrays and pair each service with each region as object {service: '', regions: ''} and dispatch to the store.
 
 ##### RegEx explanation
 For example, an error title like this: "There are problems with Virtual Machines in East US 2 last night."
 
 When extracting error regions in the title to push to `errorRegions` array, it can easily be mistaken. Even though there is only 'East US 2' region in the title, the 'East US' can also be extracted from the title as 'East US' string is part of it.
 
-To prevent this from happening, I use those 2 regex.
+To prevent this from happening, I use this regex:
 
 ```javascript
 const regEx = new RegExp('\\b' + region + '( \\D)')
@@ -129,7 +129,7 @@ This one is to find any region which following it in the title is a character, n
 ```javascript
 const regEx2 = new RegExp('\\b' + region + '$')
 ```
-This one for the case when the regions are mentioned at the end of the title.
+In addition, this one is for the case when the regions are mentioned at the end of the title.
 
 ### ├── components
 
