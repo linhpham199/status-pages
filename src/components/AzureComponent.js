@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { fetchAzureStatus } from '../actions/azure';
+import { Table, Icon, Row, Col } from 'antd'
 
 class AzureComponent extends Component {
   constructor(props) {
@@ -34,24 +35,47 @@ class AzureComponent extends Component {
     const { errors } = this.state
     return errors.find((error) =>
       error.service === service && error.region === region)
-      ? <span style={{color: 'red'}}>ERROR</span>
-      : 'GOOD'
+      ? <Icon type="close-circle" style={{color: 'red'}}/>
+      : <Icon type="check-circle" style={{color: 'green'}} />
   }
 
   render() {
     const { services, regions } = this.props
 
+    const data = services.map((service, i) => {
+      let dataElement = {
+        key: i,
+        service,
+      }
+
+      regions.map((region, i) => (
+        dataElement = {...dataElement, [region]: this.checkStatus(service, region)}
+      ))
+      return dataElement
+    })
+
+    let columns = [
+      {
+        title: '',
+        dataIndex: 'service'
+      }
+    ]
+
+    columns = columns.concat(regions.map(region => ({
+      title: region,
+      dataIndex: region,
+    })))
+
     return (
       <div>
         <h1>AZURE STATUS</h1>
-        {services.map((service, i) => {
-          return (
-            <div key={i}>
-              <h2>{service}</h2>
-              {regions.map((region, i) => <p key={i}>{region}: {this.checkStatus(service, region)}</p>)}
-            </div>
-          )
-        })}
+        <Row>
+          <Col span={3}></Col>
+          <Col span={18}>
+            <Table columns={columns} dataSource={data} />
+          </Col>
+          <Col span={3}></Col>
+        </Row>
       </div>
     );
   }

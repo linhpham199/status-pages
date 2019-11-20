@@ -1,7 +1,6 @@
 import { ActionTypes } from "../constants"
 
 export const initialState = {
-  status: null,
   incidents: []
 }
 

@@ -7,15 +7,16 @@ import {
 } from "react-router-dom";
 import AzureComponent from '../components/AzureComponent';
 import DatadogComponent from '../components/DatadogComponent';
+import { Menu } from 'antd'
 
 class Navigator extends Component {
   render() {
     return (
       <Router>
-        <div>
-          <p><Link to="/azure">Azure status</Link></p>
-          <p><Link to="/datadog">Datadog incidents</Link></p>
-
+        <Menu mode='horizontal'>
+          <Menu.Item><Link to="/azure">AZURE</Link></Menu.Item>
+          <Menu.Item><Link to="/datadog">DATADOG</Link></Menu.Item>
+        </Menu>
           <Switch>
             <Route path="/azure">
               <AzureComponent />
@@ -24,7 +25,7 @@ class Navigator extends Component {
               <DatadogComponent />
             </Route>
           </Switch>
-        </div>
+        
       </Router>
     );
   }
