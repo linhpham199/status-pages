@@ -30,7 +30,8 @@ export function fetchDatadogStatus() {
           incidents.forEach(incident => {
             dispatch(fetchDatadog_INCIDENTS({
               title: incident.title,
-              content: incident.content
+              content: incident.content,
+              date: incident.pubDate
             }))
           })
           console.log(incidents)

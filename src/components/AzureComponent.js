@@ -18,7 +18,7 @@ class AzureComponent extends Component {
   }
 
   reload() {
-    window.location.reload(true)
+    this.props.fetchAzureStatus()
   }
 
   componentWillUnmount() {

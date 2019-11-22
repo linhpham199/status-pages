@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { fetchDatadogStatus } from '../actions/datadog';
+import { Timeline, Row, Col, Icon } from 'antd';
+import * as moment from 'moment';
 
 class DatadogComponent extends Component {
 
@@ -11,7 +13,7 @@ class DatadogComponent extends Component {
   }
 
   reload() {
-    window.location.reload(true)
+    window.location.reload()
   }
 
   componentWillUnmount() {
@@ -22,15 +24,29 @@ class DatadogComponent extends Component {
     return (
       <div>
         <h1>DATADOG INCIDENTS</h1>
-        { this.props.incidents.length === 0
-          ? <p>Loading...</p>
-          : this.props.incidents.map((inc, i) => (
-            <div key={i}>
-              <h2>{i+1}. {inc.title}</h2>
-              <div dangerouslySetInnerHTML={{ __html: inc.content}}/>
+        <Row>
+          <Col span={7}></Col>
+          <Col span={10}>
+            <div >
+              { this.props.incidents.length === 0
+                ? <p>Loading...</p>
+                : <Timeline style={{textAlign: 'left'}}>
+                    { this.props.incidents.map((inc, i) => (
+                      <Timeline.Item key={i} dot={<Icon type="clock-circle-o" style={{ fontSize: '1.4em' }} />}>
+                        <div style={{paddingLeft: '.5em'}}>
+                          <div style={{fontSize: '1.3em'}}>
+                            <h4> {moment(inc.date).format('YYYY-MM-DD')} {inc.title.toUpperCase()}</h4>
+                          </div>
+                          <div dangerouslySetInnerHTML={{ __html: inc.content}}/>
+                        </div>
+                      </Timeline.Item>
+                    ))}
+                </Timeline>
+              }
             </div>
-          ))
-        }
+          </Col>
+          <Col span={7}></Col>
+        </Row>
       </div>
     );
   }
